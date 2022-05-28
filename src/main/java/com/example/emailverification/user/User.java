@@ -1,5 +1,6 @@
 package com.example.emailverification.user;
 
+import com.example.emailverification.user.enums.UserRole;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -11,7 +12,6 @@ import java.util.Collection;
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name = "USER")
 public class User implements UserDetails {
 
     @Id
@@ -24,14 +24,6 @@ public class User implements UserDetails {
 
     @Enumerated(value = EnumType.STRING)
     private UserRole role;
-
-    public User(String name, String username, String password, String email, UserRole role) {
-        this.name = name;
-        this.username = username;
-        this.password = password;
-        this.email = email;
-        this.role = role;
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

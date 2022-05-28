@@ -1,4 +1,4 @@
-package com.example.emailverification.user;
+package com.example.emailverification.user.enums;
 
 import org.springframework.security.core.GrantedAuthority;
 
