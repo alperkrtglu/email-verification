@@ -1,4 +1,4 @@
-package com.example.emailverification.user;
+package com.example.emailverification.user.entity;
 
 import com.example.emailverification.user.enums.UserRole;
 import lombok.Data;
@@ -21,9 +21,14 @@ public class User implements UserDetails {
     private String username;
     private String password;
     private String email;
+    private Boolean enabled = false;
 
     @Enumerated(value = EnumType.STRING)
     private UserRole role;
+
+    public void enable() {
+        this.enabled = true;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

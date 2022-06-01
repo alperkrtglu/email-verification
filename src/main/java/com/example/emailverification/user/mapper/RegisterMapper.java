@@ -1,6 +1,6 @@
 package com.example.emailverification.user.mapper;
 
-import com.example.emailverification.user.User;
+import com.example.emailverification.user.entity.User;
 import com.example.emailverification.user.UserRegistrationRequestDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;

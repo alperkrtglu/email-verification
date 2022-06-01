@@ -5,5 +5,6 @@ CREATE TABLE USER
     username VARCHAR(32)  NOT NULL,
     password VARCHAR(32)  NOT NULL,
     email    VARCHAR(128) NOT NULL,
+    enabled  BOOLEAN      NOT NULL,
     role     VARCHAR(32)  NOT NULL
 );
