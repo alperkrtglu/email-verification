@@ -1,14 +1,11 @@
 package com.example.emailverification.user.service;
 
 import com.example.emailverification.user.entity.User;
-import com.example.emailverification.user.UserRepository;
+import com.example.emailverification.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -24,7 +21,7 @@ public class UserService {
     @Transactional
     public void confirm(Long userId) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new UsernameNotFoundException(""));
+                .orElseThrow(() -> new RuntimeException("NotFoundUser"));
         user.enable();
     }
 }

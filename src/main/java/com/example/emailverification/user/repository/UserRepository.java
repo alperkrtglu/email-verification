@@ -1,4 +1,4 @@
-package com.example.emailverification.user;
+package com.example.emailverification.user.repository;
 
 import com.example.emailverification.user.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;

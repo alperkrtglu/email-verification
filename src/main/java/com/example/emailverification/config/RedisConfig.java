@@ -1,4 +1,4 @@
-package com.example.emailverification.user.config;
+package com.example.emailverification.config;
 
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;

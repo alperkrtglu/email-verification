@@ -4,11 +4,8 @@ import com.example.emailverification.user.entity.User;
 import com.example.emailverification.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -20,16 +17,27 @@ public class RegistrationService {
 
     public void register(User user) {
         User _user = userService.register(user);
+        storeEmailConfirmationTokenInRedis(_user);
+    }
 
+    private void storeEmailConfirmationTokenInRedis(User _user) {
         String token = UUID.randomUUID().toString();
         String userId = _user.getId().toString();
 
         redisTemplate.opsForValue().setIfAbsent(token, userId);
     }
 
-    @Transactional
     public void confirm(String token) {
-        Long userId = Long.parseLong(Objects.requireNonNull(redisTemplate.opsForValue().get(token)));
-        userService.confirm(userId);
+        userService.confirm(retrieveUserIdByTokenFromRedis(token));
+    }
+
+    private Long retrieveUserIdByTokenFromRedis(String token) {
+        String userId = redisTemplate.opsForValue().get(token);
+
+        if (userId == null) {
+            throw new RuntimeException("NotNull!");
+        }
+
+        return Long.parseLong(userId);
     }
 }
