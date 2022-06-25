@@ -3,7 +3,6 @@ package com.example.emailverification.user.service;
 import com.example.emailverification.user.entity.User;
 import com.example.emailverification.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,7 +20,7 @@ public class UserService {
     @Transactional
     public void confirm(Long userId) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("NotFoundUser"));
+                .orElseThrow(() -> new RuntimeException("Not Found User"));
         user.enable();
     }
 }

@@ -15,10 +15,12 @@ public class RegistrationController {
 
     @PostMapping
     public void register(@RequestBody RegistrationRequestDTO dto) {
-        registrationService.register(RegistrationMapper.INSTANCE.toEntity(dto));
+        registrationService.register(
+                RegistrationMapper.INSTANCE.toEntity(dto)
+        );
     }
 
-    @PostMapping("confirm")
+    @GetMapping("confirm")
     public void confirm(@RequestParam String token) {
         registrationService.confirm(token);
     }

@@ -1,6 +1,5 @@
-package com.example.emailverification.config;
+package com.example.emailverification.security;
 
-import com.example.emailverification.security.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,6 +19,29 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final CustomUserDetailsService userDetailsService;
 
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+       /* http.csrf().disable()
+                .authorizeRequests()
+                    .mvcMatchers( "/h2-console**")
+                        .permitAll()
+                        .and()
+                .authorizeRequests()
+                    .anyRequest()
+                        .authenticated()
+                        .and()
+                .formLogin().permitAll(); */
+        http.csrf().disable()
+                .authorizeRequests()
+                        .anyRequest().permitAll();
+        http.headers().frameOptions().disable();
+    }
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) {
+        auth.authenticationProvider(authenticationProvider());
+    }
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return NoOpPasswordEncoder.getInstance();
@@ -31,22 +53,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         authenticationProvider.setUserDetailsService(userDetailsService);
         authenticationProvider.setPasswordEncoder(passwordEncoder());
         return authenticationProvider;
-    }
-
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
-                .authorizeRequests()
-//                    .antMatchers("/register/**", "/testdb/**")
-//                    .permitAll()
-                .anyRequest()
-                    .permitAll().and()
-                .formLogin();
-        http.headers().frameOptions().disable();
-    }
-
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) {
-        auth.authenticationProvider(authenticationProvider());
     }
 }
