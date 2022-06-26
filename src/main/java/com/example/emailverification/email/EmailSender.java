@@ -7,8 +7,6 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
-import javax.mail.internet.MimeMessage;
-
 @Component
 @RequiredArgsConstructor
 public class EmailSender {
@@ -18,8 +16,8 @@ public class EmailSender {
     @Async
     @SneakyThrows
     public void send(String to, String name, String token) {
-        MimeMessage mimeMessage = mailSender.createMimeMessage();
-        MimeMessageHelper msg = new MimeMessageHelper(mimeMessage, "utf-8");
+        var mimeMessage = mailSender.createMimeMessage();
+        var msg = new MimeMessageHelper(mimeMessage, "utf-8");
         msg.setTo(to);
         msg.setSubject("Confirm your email");
         msg.setText(buildHtmlPage(name, token), true);

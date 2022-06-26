@@ -21,19 +21,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-       /* http.csrf().disable()
+        http.csrf().disable()
                 .authorizeRequests()
-                    .mvcMatchers( "/h2-console**")
+                    .antMatchers("/h2-console/**", "/register/**")
                         .permitAll()
                         .and()
                 .authorizeRequests()
                     .anyRequest()
                         .authenticated()
                         .and()
-                .formLogin().permitAll(); */
-        http.csrf().disable()
-                .authorizeRequests()
-                        .anyRequest().permitAll();
+                .formLogin().permitAll();
         http.headers().frameOptions().disable();
     }
 
@@ -49,7 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public AuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+        var authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setUserDetailsService(userDetailsService);
         authenticationProvider.setPasswordEncoder(passwordEncoder());
         return authenticationProvider;

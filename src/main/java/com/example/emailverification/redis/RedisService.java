@@ -4,6 +4,7 @@ import com.example.emailverification.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.TimeUnit;
@@ -17,6 +18,7 @@ public class RedisService {
 
     private final StringRedisTemplate redisTemplate;
 
+    @Async
     public void storeEmailConfirmationToken(User _user, String token) {
         redisTemplate.opsForValue().setIfAbsent(token, _user.getId().toString(), EXPIRATION_TIME, TimeUnit.MINUTES);
     }
@@ -25,7 +27,7 @@ public class RedisService {
         String userId = redisTemplate.opsForValue().get(token);
 
         if (userId == null) {
-            throw new RuntimeException("Not Null!");
+            throw new RuntimeException("Token Not Found!");
         }
 
         return Long.parseLong(userId);
